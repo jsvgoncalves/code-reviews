@@ -26,6 +26,12 @@ async def generate_message(
     - **message**: The content of the message that will be sent.
     - **include_important_people**: Whether to include important people in the destination list, default `False`.
     """
+    if len(message) <= 10:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Message should be at least 10 characters long.",
+        )
+
     if include_important_people:
         destination = add_to_destination_list(destination, default=IMPORTANT_PEOPLE)
     else:
